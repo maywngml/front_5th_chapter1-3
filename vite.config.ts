@@ -5,6 +5,9 @@ import react from "@vitejs/plugin-react-swc";
 export default mergeConfig(
   defineConfig({
     plugins: [react()],
+    resolve: {
+      alias: [{ find: "@", replacement: "src" }],
+    },
   }),
   defineTestConfig({
     test: {
