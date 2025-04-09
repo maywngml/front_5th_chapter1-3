@@ -28,9 +28,12 @@ const ItemList: React.FC<ItemListProps> = ({ items, onAddItemsClick }) => {
 
   const averagePrice = Math.round(totalPrice / filteredItems.length) || 0;
 
-  const handleFilter = (e: ChangeEvent<HTMLInputElement>) => {
-    setFilter(e.target.value);
-  };
+  const handleFilter = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setFilter(e.target.value);
+    },
+    [setFilter],
+  );
 
   return (
     <div className="mt-8">
