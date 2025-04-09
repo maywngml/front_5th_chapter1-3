@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { renderLog } from "@/utils";
-import { memo } from "@/@lib";
+import { memo, useCallback, useMemo } from "@/@lib";
 import { useTheme } from "@/context/ThemeContext";
 import type { Item } from "@/types/item";
 
@@ -14,15 +14,23 @@ const ItemList: React.FC<ItemListProps> = ({ items, onAddItemsClick }) => {
   const [filter, setFilter] = useState("");
   const { theme } = useTheme();
 
-  const filteredItems = items.filter(
-    (item) =>
-      item.name.toLowerCase().includes(filter.toLowerCase()) ||
-      item.category.toLowerCase().includes(filter.toLowerCase()),
+  const filteredItems = useMemo<Item[]>(
+    () =>
+      items.filter(
+        (item) =>
+          item.name.toLowerCase().includes(filter.toLowerCase()) ||
+          item.category.toLowerCase().includes(filter.toLowerCase()),
+      ),
+    [filter, items],
   );
 
   const totalPrice = filteredItems.reduce((sum, item) => sum + item.price, 0);
 
   const averagePrice = Math.round(totalPrice / filteredItems.length) || 0;
+
+  const handleFilter = (e: ChangeEvent<HTMLInputElement>) => {
+    setFilter(e.target.value);
+  };
 
   return (
     <div className="mt-8">
@@ -42,7 +50,7 @@ const ItemList: React.FC<ItemListProps> = ({ items, onAddItemsClick }) => {
         type="text"
         placeholder="상품 검색..."
         value={filter}
-        onChange={(e) => setFilter(e.target.value)}
+        onChange={handleFilter}
         className="w-full p-2 mb-4 border border-gray-300 rounded text-black"
       />
       <ul className="mb-4 mx-4 flex gap-3 text-sm justify-end">
