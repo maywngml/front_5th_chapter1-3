@@ -1,4 +1,5 @@
 import { useState, createContext, useContext, ReactNode } from "react";
+import { useCallback, useMemo } from "@/@lib";
 
 interface ThemeContextType {
   theme: string;
@@ -10,14 +11,17 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const [theme, setTheme] = useState("light");
 
-  const toggleTheme = () => {
+  const toggleTheme = useCallback(() => {
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
-  };
+  }, [setTheme]);
 
-  const contextValue: ThemeContextType = {
-    theme,
-    toggleTheme,
-  };
+  const contextValue: ThemeContextType = useMemo(
+    () => ({
+      theme,
+      toggleTheme,
+    }),
+    [theme, toggleTheme],
+  );
 
   return (
     <ThemeContext.Provider value={contextValue}>
