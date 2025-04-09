@@ -10,7 +10,7 @@ export function useMemo<T>(
   const memoizedDeps = useRef<DependencyList | null>(null);
   const memoizedResult = useRef<T | null>(null);
 
-  if (!_equals(memoizedDeps.current, _deps)) {
+  if (memoizedDeps.current === null || !_equals(memoizedDeps.current, _deps)) {
     memoizedResult.current = factory();
     memoizedDeps.current = _deps;
   }
