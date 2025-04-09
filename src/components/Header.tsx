@@ -1,23 +1,20 @@
 import { renderLog } from "@/utils";
 import { useUser } from "@/context/UserContext";
-import { useNotification } from "@/context/NotificationContext";
 import { useTheme } from "@/context/ThemeContext";
+import { memo, useCallback } from "@/@lib";
 
 const Header: React.FC = () => {
   renderLog("Header rendered");
   const { theme, toggleTheme } = useTheme();
   const { user, login, logout } = useUser();
-  const { addNotification } = useNotification();
 
-  const handleLogin = () => {
+  const handleLogin = useCallback(() => {
     login("user@example.com", "password");
-    addNotification("성공적으로 로그인되었습니다", "success");
-  };
+  }, [login]);
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     logout();
-    addNotification("로그아웃되었습니다", "info");
-  };
+  }, [logout]);
 
   return (
     <header className="bg-gray-800 text-white p-4">
@@ -54,4 +51,4 @@ const Header: React.FC = () => {
   );
 };
 
-export default Header;
+export default memo(Header);
