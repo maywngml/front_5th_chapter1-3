@@ -1,7 +1,7 @@
-/* eslint-disable prettier/prettier */
 import { useState } from "react";
 import { renderLog } from "@/utils";
 import { useNotification } from "@/context/NotificationContext";
+import { memo } from "@/@lib";
 
 const ComplexForm: React.FC = () => {
   renderLog("ComplexForm rendered");
@@ -38,10 +38,7 @@ const ComplexForm: React.FC = () => {
   return (
     <div className="mt-8">
       <h2 className="text-2xl font-bold mb-4">복잡한 폼</h2>
-      <form
-        onSubmit={handleSubmit}
-        className="space-y-4"
-      >
+      <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
           name="name"
@@ -68,10 +65,7 @@ const ComplexForm: React.FC = () => {
         />
         <div className="space-x-4">
           {["독서", "운동", "음악", "여행"].map((pref) => (
-            <label
-              key={pref}
-              className="inline-flex items-center"
-            >
+            <label key={pref} className="inline-flex items-center">
               <input
                 type="checkbox"
                 checked={formData.preferences.includes(pref)}
@@ -93,4 +87,4 @@ const ComplexForm: React.FC = () => {
   );
 };
 
-export default ComplexForm;
+export default memo(ComplexForm);
