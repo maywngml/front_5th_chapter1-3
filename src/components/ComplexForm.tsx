@@ -64,6 +64,7 @@ const ComplexForm: React.FC = () => {
           <input
             type={type}
             name={name}
+            key={`complex-form-input-${name}`}
             value={formData[name]}
             onChange={handleInputChange}
             placeholder={placeholder}
